@@ -50,7 +50,32 @@ Install the GRUB boot loader the GRUB boot loader to your primary drive: Yes
 Device for boor loader installation: select /dev/sda
 
 ## Setup sudo, user and group
+su - change to admin user
+apt install sudo - sudo installation
+sudo reboot - reboot
+sudo adduser <user> - add user
+sudo adduser lbordona
+sudo addgroup <group_name> - create group
+sudo addgroup user42
+getent group user42 - view users inside group user42
+sudo adduser <user> <group> - add user to group
+sudo adduser denizozd user42
+sudo adduser denizozd sudo
 
+## Install and configure Secure Shell (SSH)
+sudo apt update - refresh repositories
+sudo apt install openssh-server - ssh server installation
+sudo service ssh status - verify ssh status "Active"
+sudo apt install vim - install vim as its not preinstalled
+sudo vim /etc/ssh/sshd_config - set parameters
+Rewrite "#Port 22" to "Port 4242" - enable Port 4242
+Rewrite "#PermitRootLogin prohibit-password" to "PermitRootLogin no" - disable root access to ssh
+sudo vim /etc/ssh/ssh_config - set parameters
+Rewrite "#	Port 22" to "Port 4242" - enable Port 4242
+sudo service ssh restart - restart ssh services
+sudo service ssh status - verify ssh status (ports 4242 mentioned at bottom)
+
+## 6. SSH Connection / 4.3 Installing & configuring UFW 🔥🧱
 
 ## Evaluating this project
 write summary of information necessary, commands, grpahs, etc.
