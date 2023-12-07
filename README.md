@@ -75,7 +75,57 @@ Rewrite "#	Port 22" to "Port 4242" - enable Port 4242
 sudo service ssh restart - restart ssh services
 sudo service ssh status - verify ssh status (ports 4242 mentioned at bottom)
 
-## 6. SSH Connection / 4.3 Installing & configuring UFW 🔥🧱
+## Connecting SSH
+Shutdown VM
+Oracle VirtualBox:
+Settings > Network > Advanced > Port Forwarding > New Rule
+Host Port = 2222
+Guest Port = 4242
+Start VM
+Switch to terminal on local machine
+To connect via ssh from the machine to the virtual machine use the command 'ssh denizozd@localhost -p 2222'; it will ask for the password you are trying to log in. Once the password is introduced it will show denizozd@denizozd42:~$ in green which means that the connections has been successfull.
+
+## Installing Uncomplicated Firewall (UFW)
+UFW =  [firewall](https://en.wikipedia.org/wiki/Firewall_(computing)) which uses the command line for setting up [iptables](https://en.wikipedia.org/wiki/Iptables)
+sudo apt update - refresh repositories
+sudo apt install ufw - UFW installation
+sudo ufw enable - enable UFW service
+sudo ufw allow 4242 - allow Port 4242 for firewall
+sudo ufw status - check firewall rules and status
+
+## Setting up sudo password policy
+touch /etc/sudoers.d/sudo_config - create sudo_config file for sudo password config
+mkdir /var/log/sudo - create folder for sudo logs
+vim /etc/sudoers.d/sudo_config - edit the sudo_config file with rules:
+
+Defaults  passwd_tries=3 //max number of password tries
+Defaults  badpass_message="Error :-/" //error password message
+Defaults  logfile="/var/log/sudo/sudo_config" //log file
+Defaults  log_input, log_output
+Defaults  iolog_dir="/var/log/sudo/logfile" //log file diretory
+Defaults  requiretty //TTY mode enabled: user must have real terminal to run commands with sudo
+Defaults  secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin" //restricts the directories in which sudo will search for executables
+
+## Setting up strong password policy
+vim /etc/login.defs - change parameters of login.defs file
+PASS_MAX_DAYS 30 - set password expiration to 30 days
+PASS_MIN_DAYS 2 - set minimum days to change password again
+PASS_WARN_AGE 7 - set 7 days to warn password expiration date
+sudo apt install libpam-pwquality - installation of libpam-pwquality
+vim /etc/pam.d/common-password - modify common password policies
+minlen=10 lcredit=-1 ucredit=-1 dcredit=-1 maxrepeat=3 reject_username difok=7 enforce_for_root - insert after retry=3
+minlen=10 //minimum number of characters
+lcredit=-1 //minimum one lowercase character
+ucredit=-1 //minimum one uppercase character
+dcredit=-1 //minimum one number
+maxrepeat=3 //maximum number of same character repeated
+reject_username //reject username in password
+difok=7 //minimum 7 characters different from the last password
+enforce_for_root //add the rule to root user too
+
+## Scripting monitoring.sh
+su //change to sudo
+
 
 ## Evaluating this project
 write summary of information necessary, commands, grpahs, etc.
