@@ -15,7 +15,7 @@ Download [debian](https://www.debian.org/) ISO (International Organization for S
 * Choose 2048MB RAM, 1 CPU, Create virtual hard disk with 30.00GB
 > A virtual machine (VM) is a software emulation of a physical computer. It allows you to run multiple operating systems on a single physical machine.
 In our case VirtualBox acts as a host hypervisor as described in the following scheme:
-![alt text]()
+![alt text](https://github.com/deniz-oezdemir/42-Born2beRoot/blob/main/virtual_machines-h.png)
 
 ## Starting VM
 * Install
