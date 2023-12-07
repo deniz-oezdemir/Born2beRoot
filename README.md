@@ -6,7 +6,7 @@
 ## Installing Debian on a virtual machine (VM)
 Download [debian](https://www.debian.org/) ISO (International Organization for Standardization) image
 
-VirtualBox:
+### VirtualBox
 * Create New
 * Choose Name
 * Choose folder in sgoinfre - to have enough disk space
@@ -15,7 +15,7 @@ VirtualBox:
 
 * Choose 2048MB RAM, 1 CPU, Create virtual hard disk with 30.00GB
 
-Start VM:
+### Starting VM
 * Install
 * Select language, country, keyboard
 * Set hostname to denizozd42 - as required by subject
@@ -28,39 +28,39 @@ Start VM:
 * Set  partition password (MyFirstVM@42)
 * Finish partitioning and write changes to disk
 
-Configure the package manager:
-Scan extra installation media? No
-Select country
-Select deb.debian.org
-HTTP proxy information: Empty and Continue
-Configuring popularity-contest
-Participate in the package usage survey? No
-Software selection
-Disable all options of software and Continue
+### Configuring the package manager
+* Scan extra installation media? No
+* Select country
+* Select deb.debian.org
+* HTTP proxy information: Empty and Continue
+* Configuring popularity-contest
+* Participate in the package usage survey? No
+* Software selection
+* Disable all options of software and Continue
 
-Software selection:
-Disable all options of software and Continue
-Install the GRUB boot loader
-Install the GRUB boot loader to your primary drive: Yes
-Device for boor loader installation: select /dev/sda
+### Selecting software
+* Disable all options of software and Continue
+* Install the GRUB boot loader
+* Install the GRUB boot loader to your primary drive: Yes
+* Device for boot loader installation: select /dev/sda
 
-Install the GRUB boot loader the GRUB boot loader to your primary drive: Yes
-Device for boor loader installation: select /dev/sda
+* Install the GRUB boot loader the GRUB boot loader to your primary drive: Yes
+* Device for boot loader installation: select /dev/sda
 
-## Setup sudo, user and group
-su - change to admin user
-apt install sudo - sudo installation
-sudo reboot - reboot
-sudo adduser <user> - add user
-sudo adduser lbordona
-sudo addgroup <group_name> - create group
-sudo addgroup user42
-getent group user42 - view users inside group user42
-sudo adduser <user> <group> - add user to group
-sudo adduser denizozd user42
-sudo adduser denizozd sudo
+### Setting up sudo, user and group
+* `su` - change to admin user
+* `apt` install sudo - sudo installation
+* `sudo reboot` - reboot
+* `sudo adduser <user>` - add user
+* `sudo adduser denizozd`
+* `sudo addgroup <group_name>` - create group
+* `sudo addgroup user42`
+* `getent group user42` - view users inside group user42
+* `sudo adduser <user> <group>` - add user to group
+* `sudo adduser denizozd user42`
+* `sudo adduser denizozd sudo`
 
-## Install and configure Secure Shell (SSH)
+### Installing and configuring Secure Shell (SSH)
 sudo apt update - refresh repositories
 sudo apt install openssh-server - ssh server installation
 sudo service ssh status - verify ssh status "Active"
