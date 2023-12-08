@@ -305,7 +305,7 @@ wall "	Architecture: $arch
 ## Creating Signature
 * Shut down VM
 * locate path of VM on disk
-* run shasum Born2beRoot.vdi
+* run `shasum Born2beRoot.vdi`
 
 ## Useful commands
 ### Checking
