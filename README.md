@@ -341,6 +341,7 @@ wall "	Architecture: $arch
 * `dpkg -s ufw`  - check UFW is correctly installed
 * `sudo ufw allow 6060` - allow port 6060
 * `sudo ufw status` - check the port
+* `vim /etc/ssh/sshd_config` - check in this file that only 4242 is configured
 * `sudo ufw delete allow 6060` - delete the ports
 
 ### Monitoring
