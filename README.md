@@ -1,8 +1,5 @@
 # 42-Born2beRoot
 
-**Table of contents**
-
-
 ## Downloading Debian
 Download [debian](https://www.debian.org/) ISO (International Organization for Standardization) image
 > The subject recommends debian if you are new to SysAdmin
@@ -126,7 +123,9 @@ Debian Pros:
 * Guest Port = 4242
 * Start VM
 * Switch to terminal on local machine
-* To connect via ssh from the local machine to the virtual machine use the command 'ssh denizozd@localhost -p 2222'; it will ask for the password you are trying to log in. Once the password is introduced it will show denizozd@denizozd42:~$ in green which means that the connections has been successfull.
+
+> To connect via ssh from the local machine to the virtual machine use the command `ssh denizozd@localhost -p 2222`; it will ask for the password you are trying to log in. Once the password is introduced it will show denizozd@denizozd42:~$ in green which means that the connections has been successfull.
+
 > SSH, or Secure Shell, is a cryptographic network protocol used for secure communication over an unsecured network. It provides a secure channel between two devices, typically a client and a server, allowing for secure data exchange, remote command execution, and other network services.
 
 ## Installing Uncomplicated Firewall (UFW)
