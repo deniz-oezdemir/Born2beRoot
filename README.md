@@ -296,33 +296,46 @@ wall "	Architecture: $arch
 * locate path of VM on disk
 * run shasum Born2beRoot.vdi
 
-## Most used commands
+## Useful commands
+### Checking
 * `sudo ufw status` - check ufw status
+* `sudo service ufw status` - check ufw status
 * `sudo service ssh status` - check SSH status
-* `ssh user@ip -p 4242` - enter remotely
+
+### Users, groups and passwords
+* `ssh denizozd@localhost -p 2222` - enter remotely
 * `uname -v` - check OS
 * `getent group sudo` or `user` - check user in these 2 groups
 * `sudo adduser username` - create new user
 * `sudo chage -l username` - check the other password rules
 * `sudo vim /etc/login.defs` - check some of the documents
 * `sudo vim /etc/pam.d/common-password` - other rules
-* `sudo addgroup evaluating` - create a new group
-* `sudo adduser username evaluating` - add the user to the new group
+* `sudo addgroup groupname` - create a new group
+* `sudo adduser username groupname` - add the user to the new group
+
+### Host and partitions
 * `hostame` - check hostname
 * `hostnamectl set-hostname username` - change hostname
 * `lsblk` - check partitions
+
+### Sudo
 * `sudo -V` - check if sudo is installed
 * `sudo adduser username sudo` - add user to sudo
 * `getent group sudo` - check if its correct
 * `sudo visudo` - check the rules
-* `sudo vim /var/log/sudo/sudo.log` - check the log
-* `dpkg -l ufw`  - check UFW is correctly installed
-* `sudo ufw allow 8080` - allow port 8080
+* `sudo vim /var/log/sudo/sudo.log` - check the log ##
+
+### Firewall
+* `dpkg -s ufw`  - check UFW is correctly installed
+* `sudo ufw allow 6060` - allow port 6060
 * `sudo ufw status` - check the port
-* `sudo ufw delete allow 8080` - delete the ports
-* `sudo service ssh status` - check SSH status
+* `sudo ufw delete allow 6060` - delete the ports
+
+### Monitoring
 * `sudo vim /usr/local/bin/monitoring.sh`  - check script
 * `sudo crontab -u root -e` - check cron tabs
+* `sudo /etc/init.d/cron stop` - make script stop
+* `sudo /etc/init.d/cron start` - make script start
 * `dpkg -l | grep lighttpd` - checking installation of lighttpd
 
 
