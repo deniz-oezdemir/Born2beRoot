@@ -96,11 +96,11 @@ Debian Pros:
 >
 > Elevated Privileges: The sudo command allows a permitted user to execute a command with superuser privileges or as another user, as specified by the security policy. This enables users to perform administrative tasks that require elevated access.
 >
->Security: By requiring users to authenticate before executing privileged commands, sudo enhances security. It helps prevent unauthorized access to critical system functions and ensures accountability for administrative actions.
+> Security: By requiring users to authenticate before executing privileged commands, sudo enhances security. It helps prevent unauthorized access to critical system functions and ensures accountability for administrative actions.
 >
->Example of sudo Operation:
+> Example of sudo Operation:
 >
->Suppose you want to update the package information on a Linux system using the apt package manager, a task that typically requires administrative privileges: `sudo apt update`.
+> Suppose you want to update the package information on a Linux system using the apt package manager, a task that typically requires administrative privileges: `sudo apt update`.
 
 ## Installing and configuring Secure Shell (SSH)
 * `sudo apt update` - refresh repositories
@@ -145,7 +145,7 @@ Defaults  passwd_tries=3 //max number of password tries
 Defaults  badpass_message="Error :-/" //error password message
 Defaults  logfile="/var/log/sudo/sudo_config" //log file
 Defaults  log_input, log_output
-Defaults  iolog_dir="/var/log/sudo/logfile" //log file diretory
+Defaults  iolog_dir="/var/log/sudo" //log file diretory
 Defaults  requiretty //TTY mode enabled: user must have real terminal to run commands with sudo
 Defaults  secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin" //restricts the directories in which sudo will search for executables
 ```
@@ -323,7 +323,8 @@ wall "	Architecture: $arch
 * `sudo adduser username sudo` - add user to sudo
 * `getent group sudo` - check if its correct
 * `sudo visudo` - check the rules
-* `sudo vim /var/log/sudo/sudo.log` - check the log ##
+* `cd /var/log/sudo` - check that log exists
+* `cat sudo_config` - check commands executed with sudo
 
 ### Firewall
 * `dpkg -s ufw`  - check UFW is correctly installed
