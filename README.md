@@ -1,4 +1,4 @@
-# 42-Born2beRoot
+# Born2beRoot
 
 ## Downloading Debian
 Download [debian](https://www.debian.org/) ISO (International Organization for Standardization) image
