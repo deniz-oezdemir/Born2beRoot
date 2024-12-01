@@ -1,16 +1,39 @@
 # Born2beRoot
 
+This project is an introduction to the basics of system administration using Debian. It involves setting up a virtual machine, configuring essential services, and implementing security measures. Key tasks include installing and configuring Debian, setting up a secure SSH connection, managing users and groups, configuring a firewall, and scripting system monitoring. For the comprehensive project requirements, please refer to the [subject](./en.subject.pdf).
+
+## Table of Contents
+1. [Downloading Debian](#downloading-debian)
+2. [Creating virtual machine in VirtualBox](#creating-virtual-machine-in-virtualbox)
+3. [Starting VM](#starting-vm)
+4. [Configuring the package manager](#configuring-the-package-manager)
+5. [Selecting software](#selecting-software)
+6. [Setting up sudo, user and group](#setting-up-sudo-user-and-group)
+7. [Installing and configuring Secure Shell (SSH)](#installing-and-configuring-secure-shell-ssh)
+8. [Connecting SSH](#connecting-ssh)
+9. [Installing Uncomplicated Firewall (UFW)](#installing-uncomplicated-firewall-ufw)
+10. [Setting up sudo password policy](#setting-up-sudo-password-policy)
+11. [Setting up strong password policy](#setting-up-strong-password-policy)
+12. [Scripting monitoring.sh](#scripting-monitoringsh)
+13. [Understanding `grep` and `awk`](#understanding-grep-and-awk)
+14. [Setting Up Crontab](#setting-up-crontab)
+15. [Creating Signature](#creating-signature)
+16. [Useful Commands](#useful-commands)
+
 ## Downloading Debian
 Download [debian](https://www.debian.org/) ISO (International Organization for Standardization) image
-> The subject recommends debian if you are new to SysAdmin
+
+The subject recommends Debian if you are new to SysAdmin
 
 | Feature                   | Rocky Linux                                 | Debian                                      |
-|---------------------------|--------------------------------------------|---------------------------------------------|
-| **Origins**               | Community-supported RHEL-compatible OS     | Volunteer-driven, community-based OS        |
+|---------------------------|---------------------------------------------|---------------------------------------------|
+| **Origins**               | Community-supported RHEL-compatible OS      | Volunteer-driven, community-based OS        |
 | **Release Cycle**         | Fixed, periodic releases with LTS options   | "When it's ready" release cycle             |
 | **Package Management**    | RPM (Red Hat Package Manager)               | DPkg and APT (Debian Package Management)    |
-| **Community and Support** | Community-driven support, forums, docs     | Large and active community, extensive docs  |
+| **Community and Support** | Community-driven support, forums, docs      | Large and active community, extensive docs  |
 | **Philosophy**            | Stability, RHEL compatibility               | Free software principles, community-driven  |
+
+**RHEL** stands for Red Hat Enterprise Linux, a popular enterprise-level operating system known for its stability, security, and support.
 
 Rocky Linux Pros:
 * Predictable Release Cycle
@@ -29,19 +52,22 @@ Debian Pros:
 * Select image
 * Skip Unattended Installation - as we want to learn manual configuration
 * Choose 2048MB RAM, 1 CPU, Create virtual hard disk with 30.00GB
-> A virtual machine (VM) is a software emulation of a physical computer. It allows you to run multiple operating systems on a single physical machine.
-> In our case VirtualBox acts as a host hypervisor as described in the following scheme:
-![alt text](https://github.com/deniz-oezdemir/42-Born2beRoot/blob/main/virtual_machines-h.png)
-> Advantages of VM:
-> * Resource Optimization: enables the efficient use of physical hardware by allowing multiple virtual servers to run on a single physical server
-> * Isolation and Security: isolation of OS enhances security by preventing one VM from impacting others
-> * Testing and Development: Developers can create and deploy VMs to replicate different environments, allowing for thorough testing without affecting the host system
+A virtual machine (VM) is a software emulation of a physical computer. It allows you to run multiple operating systems on a single physical machine. In our case, VirtualBox acts as a host hypervisor as described in the following scheme:
+
+<p align="center">
+	<img src="virtual_machines.png" alt="VM">
+</p>
+
+Advantages of VM:
+* **Resource Optimization:** Enables the efficient use of physical hardware by allowing multiple virtual servers to run on a single physical server.
+* **Isolation and Security:** Isolation of OS enhances security by preventing one VM from impacting others.
+* **Testing and Development:** Developers can create and deploy VMs to replicate different environments, allowing for thorough testing without affecting the host system.
 
 ## Starting VM
 * Install
 * Select language, country, keyboard
 * Set hostname to denizozd42 - as required by subject
-* Leave domain naim empty - as not required by subject 
+* Leave domain naim empty - as not required by subject
 * Set root password (MyFirstVM@42)
 * Set username to denizozd and password (AnotherPW@42)
 * If you do not want to do the Bonus select 'Guided - use entire disk and set up encrypted LVM'
@@ -49,7 +75,8 @@ Debian Pros:
 * Cancel - as erasing of data is not required
 * Set  partition password (MyFirstVM@42)
 * Finish partitioning and write changes to disk
-> Logical Volume Manager (LVM) is a system for managing logical volumes or filesystems that reside on a hard drive or storage array. It provides a layer of abstraction between the operating system and the physical storage devices. LVM allows you to create, resize, move, and manage storage volumes dynamically, without the need to shut down the system.
+
+Logical Volume Manager (LVM) is a system for managing logical volumes or filesystems that reside on a hard drive or storage array. It provides a layer of abstraction between the operating system and the physical storage devices. LVM allows you to create, resize, move, and manage storage volumes dynamically, without the need to shut down the system.
 
 ## Configuring the package manager
 * Scan extra installation media? No
@@ -61,13 +88,11 @@ Debian Pros:
 * Software selection
 * Disable all options of software and Continue
 
-> Two package management tools in Debian-based systems:
+Two package management tools in Debian-based systems:
+- `aptitude` is a high-level package management tool that is more than just a package installer; it is also a package manager with features for searching, browsing, and managing packages.It can handle complex dependency resolutions and recommends solutions to conflicts. While it's powerful, `aptitude` is not as commonly used as `apt` in recent Debian-based systems.
+- `apt` (Advanced Package Tool) is a low-level package manager. `apt` is designed to be user-friendly and efficient for common package management tasks, such as installing, removing, updating, and upgrading packages. It is widely used and *recommended for most day-to-day package management* operations.
 
-> `aptitude` is a high-level package management tool that is more than just a package installer; it is also a package manager with features for searching, browsing, and managing packages.It can handle complex dependency resolutions and recommends solutions to conflicts. While it's powerful, `aptitude` is not as commonly used as `apt` in recent Debian-based systems.
-
-> `apt` (Advanced Package Tool) is a low-level package manager. `apt` is designed to be user-friendly and efficient for common package management tasks, such as installing, removing, updating, and upgrading packages. It is widely used and *recommended for most day-to-day package management* operations.
-
-> AppArmor is a Linux security module that enhances system security by confining the capabilities of applications through the enforcement of profiles, which define and restrict their access to resources on a Linux-based system.
+AppArmor is a Linux security module that enhances system security by confining the capabilities of applications through the enforcement of profiles, which define and restrict their access to resources on a Linux-based system.
 
 
 ## Selecting software
@@ -92,15 +117,16 @@ Debian Pros:
 * `sudo adduser denizozd user42`
 * `sudo adduser denizozd sudo`
 
-> Using `sudo` (Superuser Do):
->
-> Elevated Privileges: The sudo command allows a permitted user to execute a command with superuser privileges or as another user, as specified by the security policy. This enables users to perform administrative tasks that require elevated access.
->
-> Security: By requiring users to authenticate before executing privileged commands, sudo enhances security. It helps prevent unauthorized access to critical system functions and ensures accountability for administrative actions.
->
-> Example of sudo Operation:
->
-> Suppose you want to update the package information on a Linux system using the apt package manager, a task that typically requires administrative privileges: `sudo apt update`.
+
+### Using `sudo` (Superuser Do)
+
+Elevated Privileges: The sudo command allows a permitted user to execute a command with superuser privileges or as another user, as specified by the security policy. This enables users to perform administrative tasks that require elevated access.
+
+Security: By requiring users to authenticate before executing privileged commands, sudo enhances security. It helps prevent unauthorized access to critical system functions and ensures accountability for administrative actions.
+
+Example of sudo Operation:
+
+Suppose you want to update the package information on a Linux system using the apt package manager, a task that typically requires administrative privileges: `sudo apt update`.
 
 ## Installing and configuring Secure Shell (SSH)
 * `sudo apt update` - refresh repositories
@@ -124,9 +150,9 @@ Debian Pros:
 * Start VM
 * Switch to terminal on local machine
 
-> To connect via ssh from the local machine to the virtual machine use the command `ssh denizozd@localhost -p 2222`; it will ask for the password you are trying to log in. Once the password is introduced it will show denizozd@denizozd42:~$ in green which means that the connections has been successfull.
+To connect via ssh from the local machine to the virtual machine use the command `ssh denizozd@localhost -p 2222`; it will ask for the password you are trying to log in. Once the password is introduced it will show denizozd@denizozd42:~$ in green which means that the connections has been successfull.
 
-> SSH, or Secure Shell, is a cryptographic network protocol used for secure communication over an unsecured network. It provides a secure channel between two devices, typically a client and a server, allowing for secure data exchange, remote command execution, and other network services.
+SSH, or Secure Shell, is a cryptographic network protocol used for secure communication over an unsecured network. It provides a secure channel between two devices, typically a client and a server, allowing for secure data exchange, remote command execution, and other network services.
 
 ## Installing Uncomplicated Firewall (UFW)
 * UFW =  [firewall](https://en.wikipedia.org/wiki/Firewall_(computing)) which uses the command line for setting up [iptables](https://en.wikipedia.org/wiki/Iptables)
@@ -134,7 +160,8 @@ Debian Pros:
 * `sudo ufw enable` - enable UFW service
 * `sudo ufw allow 4242` - allow Port 4242 for firewall
 * `sudo ufw status` - check firewall rules and status
-> UFW is a user-friendly front-end for managing iptables, the default firewall management tool for many Linux distributions.
+
+UFW is a user-friendly front-end for managing iptables, the default firewall management tool for many Linux distributions.
 
 ## Setting up sudo password policy
 * `touch /etc/sudoers.d/sudo_config` - create sudo_config file for sudo password config
@@ -149,23 +176,18 @@ Defaults  iolog_dir="/var/log/sudo" //log file diretory
 Defaults  requiretty //TTY mode enabled: user must have real terminal to run commands with sudo
 Defaults  secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin" //restricts the directories in which sudo will search for executables
 ```
-> Pros:
-> * Increased Security: Enforce strong password complexity to resist brute-force attacks.
->
-> * Regular Password Changes: Set passwords to expire every 30 days, reducing the risk of long-term compromise.
->
-> * User Awareness: Provide a 7-day warning period, encouraging users to proactively change passwords.
->
-> * Password History: Ensure new passwords differ by at least 7 characters, preventing reuse.
->
-> Cons:
-> * User Convenience: Frequent changes may lead to user frustration and weaker passwords.
->
-> * Potential for Lockouts: Increased risk of forgotten passwords with complex requirements.
->
-> * Resource Utilization: Assess potential computational overhead from additional password checks.
->
-> * Security Trade-offs: Balance usability and security considerations, especially with the maxrepeat setting.
+
+Pros:
+* Increased Security: Enforce strong password complexity to resist brute-force attacks.
+* Regular Password Changes: Set passwords to expire every 30 days, reducing the risk of long-term compromise.
+* User Awareness: Provide a 7-day warning period, encouraging users to proactively change passwords.
+* Password History: Ensure new passwords differ by at least 7 characters, preventing reuse.
+
+Cons:
+* User Convenience: Frequent changes may lead to user frustration and weaker passwords.
+* Potential for Lockouts: Increased risk of forgotten passwords with complex requirements.
+* Resource Utilization: Assess potential computational overhead from additional password checks.
+* Security Trade-offs: Balance usability and security considerations, especially with the maxrepeat setting.
 
 ## Setting up strong password policy
 `vim /etc/login.defs` - change parameters of login.defs file
@@ -190,8 +212,7 @@ enforce_for_root //add the rule to root user too
 ```
 
 ## Scripting monitoring.sh
-* `su` //change to sudo
-* write own script based on the following script from sources:
+* `sudo`
 
 ```
 # Get system architecture
@@ -263,99 +284,112 @@ wall "	Architecture: $arch
 	Sudo: $cmnd cmd"
 ```
 
-> `grep` is a command-line utility used for searching text within files. It stands for "Global Regular Expression Print." Here's a brief explanation of how grep works:
->
-> Basic Syntax: `grep [options] pattern [file...]`
->
-> Parameters:
-> * options: Various flags and options that modify the behavior of grep.
-> * pattern: The regular expression or plain text string to search for.
-> * file: The file or files in which to search. If not specified, grep reads from standard input.
->
-> Working Principle: grep reads lines from the specified file(s) or standard input. It searches for the specified pattern in each line. If a line contains the pattern, it is printed to the standard output.
->
-> Example: `grep "example" file.txt ` This command searches for the string "example" in the file file.txt and prints lines containing that string.
+## Understanding `grep` and `awk`
 
-> `awk` - A Powerful Text Processing Tool
->
-> Basic Syntax: `awk 'pattern { action }' file`
-> * pattern: A condition that, if true, triggers the associated action.
-> * action: A set of commands to be executed when the pattern is true.
-> * file: The input file(s) to process. If not specified, awk reads from standard input.
->
-> Working Principle:
-> * awk reads the input file line by line.
-> * For each line, it evaluates the specified patterns.
-> * If a pattern is true, the associated action block is executed.
->
-> Fields and Records:
-> * awk divides each line into fields based on a delimiter (default is whitespace).
-> * Fields are accessed using $1, $2, etc.
-> * The whole line is represented by $0.
-> * Records are the lines in the file.
->
-> Example:
-> `awk '{ print $1 }' file.txt` This command prints the first field of each line in the file file.txt.
+### `grep` - A Text Searching Tool
+`grep` is a command-line utility used for searching text within files. It stands for "Global Regular Expression Print." Here's a brief explanation of how `grep` works:
 
-## Setting Crontab
-> `crontab` is a background process manager that can execute specified processes
-* `sudo crontab -u root -e` - to configure crontab
-* `*/10 * * * * sh /ruta del script` - add to above script to execute every 10 minutes
+**Basic Syntax:** `grep [options] pattern [file...]`
 
-## Creating Signature
-* Shut down VM
-* locate path of VM on disk
-* run `shasum Born2beRoot.vdi`
+**Parameters:**
+- `options`: Various flags and options that modify the behavior of `grep`.
+- `pattern`: The regular expression or plain text string to search for.
+- `file`: The file or files in which to search. If not specified, `grep` reads from standard input.
 
-## Useful commands
-### Checking
-* `sudo ufw status` - check ufw status
-* `sudo service ufw status` - check ufw status
-* `sudo service ssh status` - check SSH status
+**Working Principle:** `grep` reads lines from the specified file(s) or standard input. It searches for the specified pattern in each line. If a line contains the pattern, it is printed to the standard output.
 
-### Users, groups and passwords
-* `ssh denizozd@localhost -p 2222` - enter remotely
-* `uname -v` - check OS
-* `getent group sudo` or `user` - check user in these 2 groups
-* `sudo adduser username` - create new user
-* `sudo chage -l username` - check the other password rules
-* `sudo vim /etc/login.defs` - check some of the documents
-* `sudo vim /etc/pam.d/common-password` - other rules
-* `sudo addgroup groupname` - create a new group
-* `sudo adduser username groupname` - add the user to the new group
+**Example:** `grep "example" file.txt`
+This command searches for the string "example" in the file `file.txt` and prints lines containing that string.
 
-### Host and partitions
-* `hostame` - check hostname
-* `hostnamectl set-hostname username` - change hostname
-* `lsblk` - check partitions
+### `awk` - A Powerful Text Processing Tool
+`awk` is a versatile programming language for working on files. It is used for pattern scanning and processing.
 
-### Sudo
-* `sudo -V` - check if sudo is installed
-* `sudo adduser username sudo` - add user to sudo
-* `getent group sudo` - check if its correct
-* `sudo visudo` - check the rules
-* `cd /var/log/sudo` - check that log exists
-* `cat sudo_config` - check commands executed with sudo
+**Basic Syntax:** `awk 'pattern { action }' file`
 
-### Firewall
-* `dpkg -s ufw`  - check UFW is correctly installed
-* `sudo ufw allow 6060` - allow port 6060
-* `sudo ufw status` - check the port
-* `vim /etc/ssh/sshd_config` - check in this file that only 4242 is configured
-* `sudo ufw delete allow 6060` - delete the ports
+**Parameters:**
+- `pattern`: A condition that, if true, triggers the associated action.
+- `action`: A set of commands to be executed when the pattern is true.
+- `file`: The input file(s) to process. If not specified, `awk` reads from standard input.
 
-### Monitoring
-* `sudo vim /usr/local/bin/monitoring.sh`  - check script
-* `sudo crontab -u root -e` - check cron tabs
-* `sudo /etc/init.d/cron stop` - make script stop
-* `sudo /etc/init.d/cron start` - make script start
-* `dpkg -l | grep lighttpd` - checking installation of lighttpd
+**Working Principle:**
+- `awk` reads the input file line by line.
+- For each line, it evaluates the specified patterns.
+- If a pattern is true, the associated action block is executed.
+
+**Fields and Records:**
+- `awk` divides each line into fields based on a delimiter (default is whitespace).
+- Fields are accessed using `$1`, `$2`, etc.
+- The whole line is represented by `$0`.
+- Records are the lines in the file.
+
+**Example:** `awk '{ print $1 }' file.txt`
+This command prints the first field of each line in the file `file.txt`.
+
+### Setting Up Crontab
+`crontab` is a background process manager that can execute specified processes at scheduled times.
+
+**Steps:**
+1. `sudo crontab -u root -e` - to configure crontab.
+2. Add the following line to execute the script every 10 minutes:
+	```
+	*/10 * * * * sh /path/to/script
+	```
+
+### Creating Signature
+1. Shut down the VM.
+2. Locate the path of the VM on disk.
+3. Run `shasum Born2beRoot.vdi` to create a signature.
+
+### Useful Commands
+#### Checking
+- `sudo ufw status` - check UFW status.
+- `sudo service ufw status` - check UFW status.
+- `sudo service ssh status` - check SSH status.
+
+#### Users, Groups, and Passwords
+- `ssh denizozd@localhost -p 2222` - enter remotely.
+- `uname -v` - check OS.
+- `getent group sudo` or `user` - check user in these groups.
+- `sudo adduser username` - create a new user.
+- `sudo chage -l username` - check password rules.
+- `sudo vim /etc/login.defs` - check some of the documents.
+- `sudo vim /etc/pam.d/common-password` - other rules.
+- `sudo addgroup groupname` - create a new group.
+- `sudo adduser username groupname` - add the user to the new group.
+
+#### Host and Partitions
+- `hostname` - check hostname.
+- `hostnamectl set-hostname username` - change hostname.
+- `lsblk` - check partitions.
+
+#### Sudo
+- `sudo -V` - check if sudo is installed.
+- `sudo adduser username sudo` - add user to sudo.
+- `getent group sudo` - check if it's correct.
+- `sudo visudo` - check the rules.
+- `cd /var/log/sudo` - check that log exists.
+- `cat sudo_config` - check commands executed with sudo.
+
+#### Firewall
+- `dpkg -s ufw` - check UFW is correctly installed.
+- `sudo ufw allow 6060` - allow port 6060.
+- `sudo ufw status` - check the port.
+- `vim /etc/ssh/sshd_config` - check in this file that only 4242 is configured.
+- `sudo ufw delete allow 6060` - delete the ports.
+
+#### Monitoring
+- `sudo vim /usr/local/bin/monitoring.sh` - check script.
+- `sudo crontab -u root -e` - check cron tabs.
+- `sudo /etc/init.d/cron stop` - make script stop.
+- `sudo /etc/init.d/cron start` - make script start.
+- `dpkg -l | grep lighttpd` - checking installation of lighttpd.
 
 
 ## Sources
-[Born2beroot-Tutorial (with Screenshots)](https://github.com/gemartin99/Born2beroot-Tutorial/blob/main/README_EN.md#1--download-the-virtual-machine-iso-)
+[Born2beroot-Tutorial with Screenshots and monitoring script](https://github.com/gemartin99/Born2beroot-Tutorial/blob/main/README_EN.md#1--download-the-virtual-machine-iso-)
 
 [Another Born2beroot Tutorial](https://github.com/lbordonal/01-Born2beroot/wiki#mandatory-part)
 
 [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#headers)
 
+[Virtual Machine Schema](https://www.techtarget.com/rms/onlineimages/virtual_machines-h_half_column_mobile.png)
