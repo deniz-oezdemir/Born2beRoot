@@ -1,24 +1,24 @@
 # Born2beRoot
 
-This project is an introduction to the basics of system administration using Debian. It involves setting up a virtual machine, configuring essential services, and implementing security measures. Key tasks include installing and configuring Debian, setting up a secure SSH connection, managing users and groups, configuring a firewall, and scripting system monitoring. For the comprehensive project requirements, please refer to the [subject](./en.subject.pdf).
+This project is an intro to the basics of system administration using Debian. It involves setting up a virtual machine, configuring essential services, and implementing security measures. Key tasks include installing and configuring Debian, setting up a secure SSH connection, managing users and groups, configuring a firewall, and scripting system monitoring. For the comprehensive project requirements, please refer to the [subject](./en.subject.pdf).
 
 ## Table of Contents
 1. [Downloading Debian](#downloading-debian)
 2. [Creating virtual machine in VirtualBox](#creating-virtual-machine-in-virtualbox)
-3. [Starting VM](#starting-vm)
+3. [Starting the VM](#starting-the-vm)
 4. [Configuring the package manager](#configuring-the-package-manager)
 5. [Selecting software](#selecting-software)
 6. [Setting up sudo, user and group](#setting-up-sudo-user-and-group)
-7. [Installing and configuring Secure Shell (SSH)](#installing-and-configuring-secure-shell-ssh)
-8. [Connecting SSH](#connecting-ssh)
-9. [Installing Uncomplicated Firewall (UFW)](#installing-uncomplicated-firewall-ufw)
-10. [Setting up sudo password policy](#setting-up-sudo-password-policy)
-11. [Setting up strong password policy](#setting-up-strong-password-policy)
+7. [Installing and configuring Secure SHell (SSH)](#installing-and-configuring-secure-shell-ssh)
+8. [Connecting via SSH](#connecting-via-ssh)
+9. [Installing Uncomplicated FireWall (UFW)](#installing-uncomplicated-firewall-ufw)
+10. [Setting up the sudo password policy](#setting-up-the-sudo-password-policy)
+11. [Setting up a strong password policy](#setting-up-a-strong-password-policy)
 12. [Scripting monitoring.sh](#scripting-monitoringsh)
 13. [Understanding `grep` and `awk`](#understanding-grep-and-awk)
-14. [Setting Up Crontab](#setting-up-crontab)
-15. [Creating Signature](#creating-signature)
-16. [Useful Commands](#useful-commands)
+14. [Setting up Crontab](#setting-up-crontab)
+15. [Creating a signature](#creating-a-signature)
+16. [Useful commands](#useful-commands)
 
 ## Downloading Debian
 Download [debian](https://www.debian.org/) ISO (International Organization for Standardization) image
@@ -63,7 +63,7 @@ Advantages of VM:
 * **Isolation and Security:** Isolation of OS enhances security by preventing one VM from impacting others.
 * **Testing and Development:** Developers can create and deploy VMs to replicate different environments, allowing for thorough testing without affecting the host system.
 
-## Starting VM
+## Starting the VM
 * Install
 * Select language, country, keyboard
 * Set hostname to denizozd42 - as required by subject
@@ -128,7 +128,7 @@ Example of sudo Operation:
 
 Suppose you want to update the package information on a Linux system using the apt package manager, a task that typically requires administrative privileges: `sudo apt update`.
 
-## Installing and configuring Secure Shell (SSH)
+## Installing and configuring Secure SHell (SSH)
 * `sudo apt update` - refresh repositories
 * `sudo apt install openssh-server` - ssh server installation
 * `sudo service ssh status` - verify ssh status "Active"
@@ -141,7 +141,7 @@ Suppose you want to update the package information on a Linux system using the a
 * `sudo service ssh restart` - restart ssh services
 * `sudo service ssh status` - verify ssh status (ports 4242 mentioned at bottom)
 
-## Connecting SSH
+## Connecting via SSH
 * Shutdown VM
 * Oracle VirtualBox:
 * Settings > Network > Advanced > Port Forwarding > New Rule
@@ -154,7 +154,7 @@ To connect via ssh from the local machine to the virtual machine use the command
 
 SSH, or Secure Shell, is a cryptographic network protocol used for secure communication over an unsecured network. It provides a secure channel between two devices, typically a client and a server, allowing for secure data exchange, remote command execution, and other network services.
 
-## Installing Uncomplicated Firewall (UFW)
+## Installing Uncomplicated FireWall (UFW)
 * UFW =  [firewall](https://en.wikipedia.org/wiki/Firewall_(computing)) which uses the command line for setting up [iptables](https://en.wikipedia.org/wiki/Iptables)
 * `sudo apt install ufw` - UFW installation
 * `sudo ufw enable` - enable UFW service
@@ -163,7 +163,7 @@ SSH, or Secure Shell, is a cryptographic network protocol used for secure commun
 
 UFW is a user-friendly front-end for managing iptables, the default firewall management tool for many Linux distributions.
 
-## Setting up sudo password policy
+## Setting up the sudo password policy
 * `touch /etc/sudoers.d/sudo_config` - create sudo_config file for sudo password config
 * `mkdir /var/log/sudo` - create folder for sudo logs
 * `vim /etc/sudoers.d/sudo_config` - edit the sudo_config file with rules:
@@ -189,7 +189,7 @@ Cons:
 * Resource Utilization: Assess potential computational overhead from additional password checks.
 * Security Trade-offs: Balance usability and security considerations, especially with the maxrepeat setting.
 
-## Setting up strong password policy
+## Setting up a strong password policy
 `vim /etc/login.defs` - change parameters of login.defs file
 ```
 PASS_MAX_DAYS 30 - set password expiration to 30 days
@@ -325,7 +325,7 @@ This command searches for the string "example" in the file `file.txt` and prints
 **Example:** `awk '{ print $1 }' file.txt`
 This command prints the first field of each line in the file `file.txt`.
 
-### Setting Up Crontab
+### Setting up Crontab
 `crontab` is a background process manager that can execute specified processes at scheduled times.
 
 **Steps:**
@@ -335,12 +335,12 @@ This command prints the first field of each line in the file `file.txt`.
 	*/10 * * * * sh /path/to/script
 	```
 
-### Creating Signature
+### Creating a signature
 1. Shut down the VM.
 2. Locate the path of the VM on disk.
 3. Run `shasum Born2beRoot.vdi` to create a signature.
 
-### Useful Commands
+### Useful commands
 #### Checking
 - `sudo ufw status` - check UFW status.
 - `sudo service ufw status` - check UFW status.
